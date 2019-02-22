@@ -126,6 +126,10 @@ export default class ConfigFactory {
       if (options.provider) {
         merge(web3Settings.provider, options.provider);
       }
+      
+      if (web3Settings.transactionSettings.gasLimit === 'default') {
+        delete web3Settings.transactionSettings.gasLimit;
+      }
     }
 
     // accounts-specific convenience option

@@ -107,6 +107,17 @@ test('should capture transaction settings', () => {
   expect(config.web3[1].transactionSettings).toEqual(txSettings);
 });
 
+test('should use default gasLimit when specified', async () => {
+  const config = ConfigFactory.create('http', {
+    web3: {
+      transactionSettings: {
+        gasLimit: 'default'
+      }
+    }
+  });
+  expect(config.web3[1].transactionSettings).toEqual({});
+});
+
 test('should capture confirmedBlockCount', () => {
   const config = ConfigFactory.create('http', {
     web3: {
