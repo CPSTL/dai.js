@@ -85,6 +85,23 @@ function checkForReservedWords(words) {
   }
 }
 
+function handleTransactionSettings(config, options) {
+  const web3Settings = config.web3[1] || config.web3;
+  if (!web3Settings.provider) web3Settings.provider = {};
+
+  if (options.url) {
+    web3Settings.provider.url = options.url;
+  }
+
+  if (options.provider) {
+    merge(web3Settings.provider, options.provider);
+  }
+
+  if (web3Settings.transactionSettings.gasLimit === 'default') {
+    delete web3Settings.transactionSettings.gasLimit;
+  }
+}
+
 export default class ConfigFactory {
   /**
    * @param {string} preset
@@ -116,20 +133,7 @@ export default class ConfigFactory {
 
     // web3-specific convenience options
     if (config.web3) {
-      const web3Settings = config.web3[1] || config.web3;
-      if (!web3Settings.provider) web3Settings.provider = {};
-
-      if (options.url) {
-        web3Settings.provider.url = options.url;
-      }
-
-      if (options.provider) {
-        merge(web3Settings.provider, options.provider);
-      }
-      
-      if (web3Settings.transactionSettings.gasLimit === 'default') {
-        delete web3Settings.transactionSettings.gasLimit;
-      }
+      handleTransactionSettings(config, options);
     }
 
     // accounts-specific convenience option
